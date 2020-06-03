@@ -4,36 +4,49 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
+    public static final char X = 'X';
+    public static final char O = 'O';
+
+
     public static void main(String[] args) {
         // write your code here
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter cells: ");
-        char[] arr = scanner.nextLine().toCharArray();
+        int step = 0;
+        String v;
+//        System.out.print("Enter cells: ");
+//        char[] arr = scanner.nextLine().toCharArray();
+        char[] arr = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
         showField(arr);
         while(true) {
-            System.out.print("Enter the coordinates: ");
-            String s = scanner.nextLine();
-            if(!Pattern.matches("^\\d+ \\d+$", s)) {
-                System.out.println("You should enter numbers!");
-                continue;
+            while (true) {
+                System.out.print("Enter the coordinates: ");
+                String s = scanner.nextLine();
+                if (!Pattern.matches("^\\d+ \\d+$", s)) {
+                    System.out.println("You should enter numbers!");
+                    continue;
+                }
+                String[] ars = s.split(" ");
+                int x = Integer.parseInt(ars[0]);
+                int y = Integer.parseInt(ars[1]);
+                if (x < 1 || x > 3 || y < 1 || y > 3) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                    continue;
+                }
+                int p = 8 + x - 3 * y;
+                if (arr[p] == X || arr[p] == O) {
+                    System.out.println("This cell is occupied! Choose another one!");
+                    continue;
+                }
+                arr[p] = step++ % 2 == 0 ? X : O;
+                break;
             }
-            String[] ars = s.split(" ");
-            int x = Integer.parseInt(ars[0]);
-            int y = Integer.parseInt(ars[1]);
-            if (x < 1 || x > 3 || y < 1 || y > 3){
-                System.out.println("Coordinates should be from 1 to 3!");
-                continue;
+            showField(arr);
+            v = verdict(arr);
+            if(v.length() < 7){
+                System.out.println(v);
+                break;
             }
-            int p = 8 + x - 3 * y;
-            if(arr[p] == 'X' || arr[p] == 'O'){
-                System.out.println("This cell is occupied! Choose another one!");
-                continue;
-            }
-            arr[p] = 'X';
-            break;
         }
-        showField(arr);
-//        System.out.println(verdict(arr));
     }
 
     private static void showField(char[] arr) {
@@ -51,22 +64,22 @@ public class Main {
             if(arr[i] == 'X') countX++;
             if(arr[i] == 'O') countO++;
         }
-        if(arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == 'X') winX++;
-        if(arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == 'O') winO++;
-        if(arr[3] == arr[4] && arr[4] == arr[5] && arr[3] == 'X') winX++;
-        if(arr[3] == arr[4] && arr[4] == arr[5] && arr[3] == 'O') winO++;
-        if(arr[6] == arr[7] && arr[7] == arr[8] && arr[6] == 'X') winX++;
-        if(arr[6] == arr[7] && arr[7] == arr[8] && arr[6] == 'O') winO++;
-        if(arr[0] == arr[3] && arr[3] == arr[6] && arr[0] == 'X') winX++;
-        if(arr[0] == arr[3] && arr[3] == arr[6] && arr[0] == 'O') winO++;
-        if(arr[1] == arr[4] && arr[4] == arr[7] && arr[1] == 'X') winX++;
-        if(arr[1] == arr[4] && arr[4] == arr[7] && arr[1] == 'O') winO++;
-        if(arr[2] == arr[5] && arr[5] == arr[8] && arr[2] == 'X') winX++;
-        if(arr[2] == arr[5] && arr[5] == arr[8] && arr[2] == 'O') winO++;
-        if(arr[0] == arr[4] && arr[4] == arr[8] && arr[0] == 'X') winX++;
-        if(arr[0] == arr[4] && arr[4] == arr[8] && arr[0] == 'O') winO++;
-        if(arr[6] == arr[4] && arr[4] == arr[2] && arr[6] == 'X') winX++;
-        if(arr[6] == arr[4] && arr[4] == arr[2] && arr[6] == 'O') winO++;
+        if(arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == X) winX++;
+        if(arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == O) winO++;
+        if(arr[3] == arr[4] && arr[4] == arr[5] && arr[3] == X) winX++;
+        if(arr[3] == arr[4] && arr[4] == arr[5] && arr[3] == O) winO++;
+        if(arr[6] == arr[7] && arr[7] == arr[8] && arr[6] == X) winX++;
+        if(arr[6] == arr[7] && arr[7] == arr[8] && arr[6] == O) winO++;
+        if(arr[0] == arr[3] && arr[3] == arr[6] && arr[0] == X) winX++;
+        if(arr[0] == arr[3] && arr[3] == arr[6] && arr[0] == O) winO++;
+        if(arr[1] == arr[4] && arr[4] == arr[7] && arr[1] == X) winX++;
+        if(arr[1] == arr[4] && arr[4] == arr[7] && arr[1] == O) winO++;
+        if(arr[2] == arr[5] && arr[5] == arr[8] && arr[2] == X) winX++;
+        if(arr[2] == arr[5] && arr[5] == arr[8] && arr[2] == O) winO++;
+        if(arr[0] == arr[4] && arr[4] == arr[8] && arr[0] == X) winX++;
+        if(arr[0] == arr[4] && arr[4] == arr[8] && arr[0] == O) winO++;
+        if(arr[6] == arr[4] && arr[4] == arr[2] && arr[6] == X) winX++;
+        if(arr[6] == arr[4] && arr[4] == arr[2] && arr[6] == O) winO++;
         if(Math.abs(countX - countO) > 1 || winO > 0 && winX > 0) return "Impossible";
         if(winO > 0) return "O wins";
         if(winX > 0) return "X wins";
