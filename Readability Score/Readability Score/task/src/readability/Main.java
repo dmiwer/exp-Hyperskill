@@ -1,14 +1,17 @@
 package readability;
 
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String inp = scanner.nextLine();
-        if (inp.length() > 100)
-            System.out.println("HARD");
-        else
-            System.out.println("EASY");
+        String[] sentence = scanner.nextLine().split("[.!?]");
+        boolean hard = Stream.of(sentence)
+                .map(String::trim)
+                .mapToInt(line -> line.split(" ").length)
+                .average()
+                .getAsDouble() > 10;
+        System.out.println(hard ? "HARD" : "EASY");
     }
 }
