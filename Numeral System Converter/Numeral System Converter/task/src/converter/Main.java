@@ -1,8 +1,11 @@
 package converter;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        int t = 10;
-        System.out.printf("%d = %s%n", t, "0b" + Integer.toBinaryString(t));
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        System.out.println(num % 8);
     }
 }
