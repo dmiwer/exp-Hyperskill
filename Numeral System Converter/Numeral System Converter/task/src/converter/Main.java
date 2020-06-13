@@ -1,26 +1,39 @@
 package converter;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+    static char[] arr = new char[]{'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        int base = scanner.nextInt();
-        String s;
-        switch (base){
-            case (2):
-                s = "0b" + Integer.toBinaryString(num);
-                break;
-            case (8):
-                s = "0" + Integer.toOctalString(num);
-                break;
-            case (16):
-                s = "0x" + Integer.toHexString(num);
-                break;
-            default:
-                s = "xxx";
+        String ans;
+
+        int oldBase = scanner.nextInt();
+        scanner.skip("\\n");
+        String num = scanner.nextLine();
+        int newBase = scanner.nextInt();
+
+        int n = fromOldBaseToInt(num, oldBase);
+        if (newBase == 1) {
+            char[] c = new char[n];
+            Arrays.fill(c, '1');
+            ans = new String(c);
+        } else ans = fromIntToNewBase(n, newBase);
+
+        System.out.println(ans);
+    }
+
+    private static String fromIntToNewBase(int n, int newBase) {
+        return n == 0 ? "" : fromIntToNewBase(n / newBase, newBase) + arr[n % newBase];
+    }
+
+    private static int fromOldBaseToInt(String num, int oldBase) {
+        int ans = 0;
+        for(char c: num.toCharArray()){
+            ans = ans * oldBase + Arrays.binarySearch(arr, c);
         }
-        System.out.println(s);
+        return ans;
     }
 }
