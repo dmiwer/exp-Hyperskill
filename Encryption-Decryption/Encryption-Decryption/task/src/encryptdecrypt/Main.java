@@ -1,20 +1,30 @@
 package encryptdecrypt;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String operation =scanner.nextLine();
-        char[] str = scanner.nextLine().toCharArray();
-        int shift  = scanner.nextInt();
+        String mode = "enc";
+        int shift = 0;
+        char[] data = new char[0];
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case ("-mode"):
+                    mode = args[++i];
+                    break;
+                case ("-key"):
+                    shift = Integer.parseInt(args[++i]);
+                    break;
+                case ("-data"):
+                    data = args[++i].toCharArray();
+                    break;
+            }
+        }
 
-        if (operation.equals("enc"))
-            encrypt(str, shift);
-        else if (operation.equals("dec"))
-            decrypt(str, shift);
+        if (mode.equals("enc"))
+            encrypt(data, shift);
+        else if (mode.equals("dec"))
+            decrypt(data, shift);
 
-        System.out.println(new String(str));
+        System.out.println(new String(data));
     }
 
     private static void encrypt(char[] str, int shift) {
