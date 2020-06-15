@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        char[] ans = "we found a treasure!".toCharArray();
-        for (int i = 0; i < ans.length; i++)
-            if (ans[i] > 96 && ans[i] < 123)
-                ans[i] = (char) (219 - ans[i]);
+        Scanner scanner = new Scanner(System.in);
+        char[] str = scanner.nextLine().toCharArray();
+        int shift  = scanner.nextInt();
+        for (int i = 0; i < str.length; i++)
+            if (str[i] > 96 && str[i] < 123)
+                str[i] = (char) ((str[i] - 97 + shift) % 26 + 97);
 
-        System.out.println(new String(ans));
+        System.out.println(new String(str));
     }
 }
